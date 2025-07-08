@@ -166,14 +166,15 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnp/
-.pnp.js
-.cache/
-dist/
-out/
-build/
-*.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+package-lock.json
+.npm
+.node_repl_history
+*.tgz
+.yarn-integrity
+.env
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
