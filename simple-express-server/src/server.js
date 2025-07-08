@@ -1,38 +1,23 @@
 
+require('dotenv').config();
 const express = require('express');
 
 const app = express();
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 
 app.use(express.json());
 
-// In-memory tasks array
-let tasks = [
-  "Write a diary entry from the future",
-  "Create a time machine from a cardboard box",
-  "Plan a trip to the dinosaurs",
-  "Draw a futuristic city",
-  "List items to bring on a time-travel adventure"
-];
+// Import routes
+const rootRouter = require('../routes/root');
+const tasksRouter = require('../routes/tasks');
 
-// GET /
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+app.use('/', rootRouter);
+app.use('/tasks', tasksRouter);
 
-// POST /tasks
-app.post('/tasks', (req, res) => {
-  const { text } = req.body;
-  if (typeof text !== 'string' || !text.trim()) {
-    return res.status(400).json({ message: 'Task text is required' });
-  }
-  tasks.push(text);
-  res.json({ message: 'Task added successfully' });
-});
-
-// GET /tasks
-app.get('/tasks', (req, res) => {
-  res.json({ tasks });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal Server Error' });
 });
 
 app.listen(PORT, () => {
